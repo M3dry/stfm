@@ -1,6 +1,13 @@
 #ifndef DIR_H
 #define DIR_H
 
-void get_dirs(const char *indir);
+typedef struct file {
+    char *name;
+    char perms[10];
+    int type;
+    unsigned int size;
+} FileInfo;
+
+FileInfo **get_dirs(const char *indir);
 
 #endif // DIR_H

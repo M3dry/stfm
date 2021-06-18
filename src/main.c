@@ -11,7 +11,7 @@ main(int argc, char **argv)
     /* getch(); */
     /* endwin(); */
 
-    get_dirs(".");
+    FileInfo **fInfo = get_dirs(".");
 
     return 0;
 }
