@@ -66,7 +66,9 @@ FileInfo
             files[i].perms[8] = (fileStat.st_mode & S_IWOTH) ? 'w' : '-';
             files[i].perms[9] = (fileStat.st_mode & S_IXOTH) ? 'x' : '-';
 
-            printf("%s %d %s\n", files[i].perms, files[i].type, files[i].name);
+            files[i].size = (files[i].type != DT_DIR) ? fileStat.st_size : 0;
+
+            printf("%s %d %d %s\n", files[i].perms, files[i].size, files[i].type, files[i].name);
             i++;
         }
     }
