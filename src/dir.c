@@ -4,6 +4,7 @@
 #include <string.h>
 #include <limits.h>
 #include <sys/stat.h>
+#include <unistd.h>
 
 #include "dir.h"
 
@@ -56,6 +57,7 @@ FileInfo
             /*     return NULL; */
             /* } */
 
+            chdir(indir);
             stat(d->d_name, &fileStat);
 
             files[i].perms[0] = (S_ISDIR(fileStat.st_mode))  ? 'd' : '-';

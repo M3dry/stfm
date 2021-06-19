@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "dir.h"
+#include "sorting.h"
 
 int
 main(int argc, char **argv)
@@ -13,6 +14,7 @@ main(int argc, char **argv)
 
     int dirnum = 0;
     FileInfo *fInfo = get_dirs(argc > 1 ? argv[1] : ".", &dirnum);
+    fInfo = sort_by_size(fInfo, dirnum, 0);
 
     int sel = 0, input = 0;
 
