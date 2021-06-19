@@ -24,11 +24,10 @@ draw_dir_box(WINDOW *win, int dirnum, int rows, FileInfo *fInfo, int sel)
                 }
                 if ((sel < pageLen) ? (sel == o) : ((sel - pageLen * ((curPage > 2) ? i - 1 : 1)) == o))
                     wattron(win, A_BOLD|A_ITALIC|A_REVERSE);
-                mvwprintw(win, o + 1, 2, "%s %d %d %s %s", fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].perms,
-                                                           fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].size,
-                                                           fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].type,
-                                                           fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].name,
-                                                           fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].realpath);
+                mvwprintw(win, o + 1, 2, "%s %d %d %s", fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].perms,
+                                                        fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].size,
+                                                        fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].type,
+                                                        fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].name);
                 mvwprintw(win, 0, 2, "%d", (curPage == 1) ? o : o + pageLen);
                 wattroff(win, A_BOLD|A_ITALIC|A_REVERSE);
                 refresh();

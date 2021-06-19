@@ -15,6 +15,7 @@ FileInfo
     struct dirent *d;
     struct stat fileStat;
     char *real = NULL;
+    char *cwd = malloc(sizeof(char) * PATH_MAX);
     int ndir = 0, i = 0, tmp = 0;
 
     if (dir == NULL) {
@@ -57,6 +58,7 @@ FileInfo
             /*     return NULL; */
             /* } */
 
+            getcwd(cwd, PATH_MAX);
             chdir(indir);
             stat(d->d_name, &fileStat);
 
@@ -71,6 +73,8 @@ FileInfo
             files[i].perms[8] = (fileStat.st_mode & S_IWOTH) ? 'w' : '-';
             files[i].perms[9] = (fileStat.st_mode & S_IXOTH) ? 'x' : '-';
             files[i].size = (files[i].type != DT_DIR) ? fileStat.st_size : 0;
+
+            chdir(cwd);
 
             if (indir[strlen(indir) - 1] != '/') tmp = 1;
 
@@ -92,6 +96,8 @@ FileInfo
             }
 
             files[i].realpath = realpath(real, NULL);
+            printf("%s\n", real);
+            printf("%s\n", files[i].realpath);
 
             free(real);
             i++;
@@ -101,5 +107,6 @@ FileInfo
     if (dirnum != NULL)
         *dirnum = i;
 
+    free(cwd);
     return files;
 }
