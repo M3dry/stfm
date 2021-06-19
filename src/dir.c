@@ -96,8 +96,8 @@ FileInfo
             }
 
             files[i].realpath = realpath(real, NULL);
-            printf("%s\n", real);
-            printf("%s\n", files[i].realpath);
+            /* printf("%s\n", real); */
+            /* printf("%s\n", files[i].realpath); */
 
             free(real);
             i++;
