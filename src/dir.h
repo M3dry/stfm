@@ -3,6 +3,7 @@
 
 typedef struct file {
     char *name;
+    char *realpath;
     char perms[10];
     int type;
     unsigned int size;

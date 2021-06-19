@@ -13,10 +13,11 @@ FileInfo
     DIR *dir = opendir(indir);
     struct dirent *d;
     struct stat fileStat;
-    int ndir = 0, i = 0;
+    char *real = NULL;
+    int ndir = 0, i = 0, tmp = 0;
 
     if (dir == NULL) {
-        fprintf(stderr, "Uo0pPppS1 ^w^ get_dirs(%s) fucked it self UwU\n", indir);
+        fprintf(stderr, "get_dirs(\"%s\") no directory found\n", indir);
         return NULL;
     }
 
@@ -50,10 +51,12 @@ FileInfo
                 default:
                     files[i].type = DT_UNKNOWN;
             }
-            if (stat(d->d_name, &fileStat) < 0) {
-                fprintf(stderr, "YOu\'re mothre is gaj stat failed\n");
-                return NULL;
-            }
+            /* if (stat(d->d_name, &fileStat) < 0) { */
+            /*     fprintf(stderr, "YOu\'re mothre is gaj stat failed\n"); */
+            /*     return NULL; */
+            /* } */
+
+            stat(d->d_name, &fileStat);
 
             files[i].perms[0] = (S_ISDIR(fileStat.st_mode))  ? 'd' : '-';
             files[i].perms[1] = (fileStat.st_mode & S_IRUSR) ? 'r' : '-';
@@ -65,13 +68,34 @@ FileInfo
             files[i].perms[7] = (fileStat.st_mode & S_IROTH) ? 'r' : '-';
             files[i].perms[8] = (fileStat.st_mode & S_IWOTH) ? 'w' : '-';
             files[i].perms[9] = (fileStat.st_mode & S_IXOTH) ? 'x' : '-';
-
             files[i].size = (files[i].type != DT_DIR) ? fileStat.st_size : 0;
 
-            /* printf("GET_DIRS: %s %d %d %s\n", files[i].perms, files[i].size, files[i].type, files[i].name); */
+            if (indir[strlen(indir) - 1] != '/') tmp = 1;
+
+            real = malloc(sizeof(char) * (strlen(indir) + strlen(files[i].name) + tmp));
+
+            for (int o = 0; o < (strlen(indir) + strlen(files[i].name)); o++) {
+                real[o] = '\0';
+            }
+
+            for (int o = 0; o < strlen(indir); o++) {
+                real[o] = indir[o];
+            }
+
+            if (tmp) real[strlen(indir)] = '/';
+
+            for (int o = 0; o < strlen(files[i].name); o++) {
+                real[o + strlen(indir) + tmp] = files[i].name[o];
+                real[o + strlen(indir) + 1 + tmp] = '\0';
+            }
+
+            files[i].realpath = realpath(real, NULL);
+
+            free(real);
             i++;
         }
     }
+
     if (dirnum != NULL)
         *dirnum = i;
 
