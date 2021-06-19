@@ -8,6 +8,6 @@ typedef struct file {
     unsigned int size;
 } FileInfo;
 
-FileInfo **get_dirs(const char *indir);
+FileInfo *get_dirs(const char *indir, int *dirnum);
 
 #endif // DIR_H

@@ -8,7 +8,7 @@
 #include "dir.h"
 
 FileInfo
-**get_dirs(const char *indir)
+*get_dirs(const char *indir, int *dirnum)
 {
     DIR *dir = opendir(indir);
     struct dirent *d;
@@ -68,10 +68,12 @@ FileInfo
 
             files[i].size = (files[i].type != DT_DIR) ? fileStat.st_size : 0;
 
-            printf("%s %d %d %s\n", files[i].perms, files[i].size, files[i].type, files[i].name);
+            /* printf("GET_DIRS: %s %d %d %s\n", files[i].perms, files[i].size, files[i].type, files[i].name); */
             i++;
         }
     }
+    if (dirnum != NULL)
+        *dirnum = i;
 
-    return NULL;
+    return files;
 }
