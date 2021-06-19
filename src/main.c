@@ -4,6 +4,7 @@
 
 #include "dir.h"
 #include "sorting.h"
+#include "draw.h"
 
 int
 main(int argc, char **argv)
@@ -16,17 +17,18 @@ main(int argc, char **argv)
     FileInfo *fInfo = get_dirs(argc > 1 ? argv[1] : ".", &dirnum);
     fInfo = sort_by_size(fInfo, dirnum, 0);
 
-    int sel = 0, input = 0;
+    int input = 0, row = getmaxy(stdscr), col = getmaxx(stdscr), sel = 0;
+
+    WINDOW *dirs = newwin(row, col / 2, 0, 1);
+    box(dirs, 0, 0);
+    refresh();
+    wrefresh(dirs);
 
     while (1) {
-        for (int i = 0; i < dirnum; i++) {
-            if (i == sel)
-                wattron(stdscr, A_BOLD|A_ITALIC|A_REVERSE);
-            mvwprintw(stdscr, i + 1, 0, "%s %d %d %s", fInfo[i].perms, fInfo[i].size, fInfo[i].type, fInfo[i].name);
-            wattroff(stdscr, A_BOLD|A_ITALIC|A_REVERSE);
-        }
-        input = wgetch(stdscr);
 
+        draw_dir_box(dirs, dirnum, row, fInfo, sel);
+
+        input = wgetch(dirs);
         switch (input) {
             case 'j':
                 sel++;
