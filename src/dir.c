@@ -15,7 +15,6 @@ FileInfo
     struct dirent *d;
     struct stat fileStat;
     char *real = NULL;
-    char *cwd = malloc(sizeof(char) * PATH_MAX);
     int ndir = 0, i = 0, tmp = 0;
 
     if (dir == NULL) {
@@ -53,28 +52,6 @@ FileInfo
                 default:
                     files[i].type = DT_UNKNOWN;
             }
-            /* if (stat(d->d_name, &fileStat) < 0) { */
-            /*     fprintf(stderr, "YOu\'re mothre is gaj stat failed\n"); */
-            /*     return NULL; */
-            /* } */
-
-            getcwd(cwd, PATH_MAX);
-            chdir(indir);
-            stat(d->d_name, &fileStat);
-
-            files[i].perms[0] = (S_ISDIR(fileStat.st_mode))  ? 'd' : '-';
-            files[i].perms[1] = (fileStat.st_mode & S_IRUSR) ? 'r' : '-';
-            files[i].perms[2] = (fileStat.st_mode & S_IWUSR) ? 'w' : '-';
-            files[i].perms[3] = (fileStat.st_mode & S_IXUSR) ? 'x' : '-';
-            files[i].perms[4] = (fileStat.st_mode & S_IRGRP) ? 'r' : '-';
-            files[i].perms[5] = (fileStat.st_mode & S_IWGRP) ? 'w' : '-';
-            files[i].perms[6] = (fileStat.st_mode & S_IXGRP) ? 'x' : '-';
-            files[i].perms[7] = (fileStat.st_mode & S_IROTH) ? 'r' : '-';
-            files[i].perms[8] = (fileStat.st_mode & S_IWOTH) ? 'w' : '-';
-            files[i].perms[9] = (fileStat.st_mode & S_IXOTH) ? 'x' : '-';
-            files[i].size = (files[i].type != DT_DIR) ? fileStat.st_size : 0;
-
-            chdir(cwd);
 
             if (indir[strlen(indir) - 1] != '/') tmp = 1;
 
@@ -96,10 +73,24 @@ FileInfo
             }
 
             files[i].realpath = realpath(real, NULL);
-            /* printf("%s\n", real); */
-            /* printf("%s\n", files[i].realpath); */
 
             free(real);
+
+            chdir(indir);
+            stat(d->d_name, &fileStat);
+
+            files[i].perms[0] = (S_ISDIR(fileStat.st_mode))  ? 'd' : '-';
+            files[i].perms[1] = (fileStat.st_mode & S_IRUSR) ? 'r' : '-';
+            files[i].perms[2] = (fileStat.st_mode & S_IWUSR) ? 'w' : '-';
+            files[i].perms[3] = (fileStat.st_mode & S_IXUSR) ? 'x' : '-';
+            files[i].perms[4] = (fileStat.st_mode & S_IRGRP) ? 'r' : '-';
+            files[i].perms[5] = (fileStat.st_mode & S_IWGRP) ? 'w' : '-';
+            files[i].perms[6] = (fileStat.st_mode & S_IXGRP) ? 'x' : '-';
+            files[i].perms[7] = (fileStat.st_mode & S_IROTH) ? 'r' : '-';
+            files[i].perms[8] = (fileStat.st_mode & S_IWOTH) ? 'w' : '-';
+            files[i].perms[9] = (fileStat.st_mode & S_IXOTH) ? 'x' : '-';
+            files[i].size = (files[i].type != DT_DIR) ? fileStat.st_size : 0;
+
             i++;
         }
     }
@@ -107,6 +98,5 @@ FileInfo
     if (dirnum != NULL)
         *dirnum = i;
 
-    free(cwd);
     return files;
 }
