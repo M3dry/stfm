@@ -77,6 +77,7 @@ FileInfo
             free(real);
 
             chdir(indir);
+
             stat(d->d_name, &fileStat);
 
             files[i].perms[0] = (S_ISDIR(fileStat.st_mode))  ? 'd' : '-';

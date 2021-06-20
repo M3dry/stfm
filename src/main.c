@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <curses.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <unistd.h>
 
 #include "dir.h"
 #include "sorting.h"
@@ -37,6 +39,20 @@ main(int argc, char **argv)
             case 'k':
                 sel--;
                 if (sel == -1) sel = dirnum - 1;
+                break;
+            case 'l':
+                if (fInfo[sel].type == DT_DIR) {
+                    chdir(fInfo[sel].realpath);
+                    fInfo = get_dirs(".", &dirnum);
+                    fInfo = sort_by_size(fInfo, dirnum, 0);
+                    sel = 0;
+                }
+                break;
+            case 'h':
+                chdir("..");
+                fInfo = get_dirs(".", &dirnum);
+                fInfo = sort_by_size(fInfo, dirnum, 0);
+                sel = 0;
                 break;
             default:
                 break;
