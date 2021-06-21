@@ -62,7 +62,7 @@ main(int argc, char **argv)
     }
 
     endwin();
-    printf("%s\n", fInfo[sel].realpath);
+    fprintf(stdout, "%s\n", fInfo[sel].realpath);
 
     free(fInfo);
     return 0;
