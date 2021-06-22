@@ -35,7 +35,6 @@ main(int argc, char **argv)
     wrefresh(dirs);
 
     while (1) {
-
         draw_dir_box(dirs, dir_panes, dirnum, row, fInfo, sel);
 
         input = wgetch(dirs);
