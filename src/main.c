@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "dir.h"
 #include "sorting.h"
@@ -21,14 +22,21 @@ main(int argc, char **argv)
 
     int input = 0, row = getmaxy(stdscr), col = getmaxx(stdscr), sel = 0;
 
-    WINDOW *dirs = newwin(row, col / 2, 0, 1);
+    /* WINDOW *dirs = newwin(row, col / 1.15, 0, 1); */
+    WINDOW *dirs = newwin(row, col / 3.6 + 41, 0, 1);
+    dirWin dir_panes;
+    dir_panes.type = newwin(row - 2, 2, 1, 3);
+    dir_panes.name = newwin(row - 2, col / 3.6, 1, 6);
+    dir_panes.perms = newwin(row - 2, 12, 1, col / 3.6);
+    dir_panes.size = newwin(row - 2, 10, 1, 11 + col / 3.6);
+    dir_panes.last_mod = newwin(row - 2, 20, 1, 21 + col / 3.6);
     box(dirs, 0, 0);
     refresh();
     wrefresh(dirs);
 
     while (1) {
 
-        draw_dir_box(dirs, dirnum, row, fInfo, sel);
+        draw_dir_box(dirs, dir_panes, dirnum, row, fInfo, sel);
 
         input = wgetch(dirs);
         switch (input) {

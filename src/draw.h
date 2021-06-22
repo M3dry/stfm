@@ -4,6 +4,14 @@
 #include <curses.h>
 #include "dir.h"
 
-void draw_dir_box(WINDOW *win, int dirnum, int rows, FileInfo *fInfo, int sel);
+typedef struct dirWin {
+    WINDOW *type;
+    WINDOW *name;
+    WINDOW *perms;
+    WINDOW *size;
+    WINDOW *last_mod;
+} dirWin;
+
+void draw_dir_box(WINDOW *win, dirWin dir_panes, int dirnum, int rows, FileInfo *fInfo, int sel);
 
 #endif // DRAW_H

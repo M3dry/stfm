@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "dir.h"
 
@@ -77,9 +79,9 @@ FileInfo
             free(real);
 
             chdir(indir);
+            lstat(d->d_name, &fileStat);
 
-            stat(d->d_name, &fileStat);
-
+            strftime(files[i].last_mod, 20, "%H:%M:%S %d/%m/%Y", localtime(&fileStat.st_mtim.tv_sec));
             files[i].perms[0] = (S_ISDIR(fileStat.st_mode))  ? 'd' : '-';
             files[i].perms[1] = (fileStat.st_mode & S_IRUSR) ? 'r' : '-';
             files[i].perms[2] = (fileStat.st_mode & S_IWUSR) ? 'w' : '-';
