@@ -34,9 +34,8 @@ draw_dir_box(WINDOW *win, dirWin dir_panes, int dirnum, int rows, FileInfo *fInf
                     mvwprintw(dir_panes.name, o, 0, "%s", fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].name);
                     mvwprintw(dir_panes.perms, o, 0, "%s", fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].perms);
                     mvwprintw(dir_panes.last_mod, o, 0, "%s", fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].last_mod);
-                    if(fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].size > 0){
+                    if(fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].size > 0)
                         mvwprintw(dir_panes.size, o, 0, "%d", fInfo[(curPage == 1) ? o : o + pageLen * ((curPage > 2) ? i - 1 : 1)].size);
-                    }
                     wrefresh(dir_panes.type);
                     wrefresh(dir_panes.name);
                     wrefresh(dir_panes.perms);
