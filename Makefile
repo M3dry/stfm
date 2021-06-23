@@ -1,6 +1,6 @@
 CC=clang
 CFLAGS=-g -Wall
-CLIBS=-lcurses -lm
+LIBS=-lcursesw -lm
 OBJ=obj
 SRC=src
 SRCS=$(wildcard $(SRC)/*.c)
@@ -11,7 +11,7 @@ BINDIR=bin
 all: $(BINDIR)/$(BIN)
 
 $(BINDIR)/$(BIN): $(OBJS)
-	$(CC) $(CFLAGS) $(CLIBS) $(OBJS) -o $@
+	$(CC) $(CFLAGS) $(LIBS) $(OBJS) -o $@
 
 $(OBJ)/%.o: $(SRC)/%.c
 	$(CC) $(CFLAGS) -c $< -o $@

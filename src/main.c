@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <dirent.h>
 #include <unistd.h>
-#include <time.h>
+#include <locale.h>
 
 #include "dir.h"
 #include "sorting.h"
@@ -12,6 +12,7 @@
 int
 main(int argc, char **argv)
 {
+    setlocale(LC_ALL, "");
     initscr();
     noecho();
     keypad(stdscr, TRUE);

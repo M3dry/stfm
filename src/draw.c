@@ -1,3 +1,5 @@
+#define _XOPEN_SOURCE_EXTENDED
+
 #include <curses.h>
 #include <math.h>
 #include <dirent.h>
@@ -25,7 +27,7 @@ draw_dir_box(WINDOW *win, dirWin dir_panes, int dirnum, int rows, FileInfo *fInf
                 }
 
                 if ((sel < pageLen) ? (sel == o) : ((sel - pageLen * ((curPage > 2) ? i - 1 : 1)) == o)) {
-                    wattron(dir_panes.type, A_BOLD|A_ITALIC|A_REVERSE);
+                    wattron(dir_panes.type, A_BOLD|A_ITALIC);
                     wattron(dir_panes.name, A_BOLD|A_ITALIC|A_REVERSE);
                     wattron(dir_panes.perms, A_BOLD|A_ITALIC|A_REVERSE);
                     wattron(dir_panes.size, A_BOLD|A_ITALIC|A_REVERSE);
@@ -37,11 +39,11 @@ draw_dir_box(WINDOW *win, dirWin dir_panes, int dirnum, int rows, FileInfo *fInf
                 if (tmp < dirnum) {
                     switch (fInfo[tmp].type) {
                         case DT_REG:
-                            mvwprintw(dir_panes.type, o, 0, "F"); break;
+                            mvwprintw(dir_panes.type, o, 0, "%lc", L''); break;
                         case DT_DIR:
-                            mvwprintw(dir_panes.type, o, 0, "D"); break;
+                            mvwprintw(dir_panes.type, o, 0, "%lc", L''); break;
                         case DT_LNK:
-                            mvwprintw(dir_panes.type, o, 0, "L"); break;
+                            mvwprintw(dir_panes.type, o, 0, "%lc", L''); break;
                         case DT_FIFO:
                             mvwprintw(dir_panes.type, o, 0, "FI"); break;
                         case DT_SOCK:
@@ -66,7 +68,6 @@ draw_dir_box(WINDOW *win, dirWin dir_panes, int dirnum, int rows, FileInfo *fInf
                     refresh();
                 }
 
-                wattroff(dir_panes.type, A_BOLD|A_ITALIC|A_REVERSE);
                 wattroff(dir_panes.name, A_BOLD|A_ITALIC|A_REVERSE);
                 wattroff(dir_panes.perms, A_BOLD|A_ITALIC|A_REVERSE);
                 wattroff(dir_panes.size, A_BOLD|A_ITALIC|A_REVERSE);

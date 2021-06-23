@@ -2,6 +2,7 @@
 #define DIR_H
 
 #include <sys/types.h>
+#include <dirent.h>
 
 typedef struct file {
     char *name;
